@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Web.Interfaces;
 using Web.ViewModels;
@@ -60,7 +61,15 @@ namespace Web.Services
             {
                 Categories = await GetCategories(),
                 Brands = await GetBrands(),
-                Products = await _productRepository.ListAsync(new ProductsFilterSpecification(categoryId, brandId)),
+                Products = (await _productRepository.ListAsync(new ProductsFilterSpecification(categoryId, brandId)))
+                    .Select(x => new ProductViewModel()
+                    {
+                        Id = x.Id,
+                        ProductName = x.ProductName,
+                        Description = x.Description,
+                        UnitPrice = x.UnitPrice,
+                        PhotoPath = string.IsNullOrEmpty(x.PhotoPath) ? "no-product-image.png" : x.PhotoPath
+                    }).ToList(),
                 CategoryId = categoryId,
                 BrandId = brandId
             };
