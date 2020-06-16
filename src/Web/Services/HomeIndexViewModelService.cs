@@ -47,19 +47,21 @@ namespace Web.Services
                 .OrderBy(x => x.Text)
                 .ToList();
 
-            var allItem = new SelectListItem() { Value = null, Text = "All", Selected = true };
+            var allItem = new SelectListItem() { Value = null, Text = "All" };
             items.Insert(0, allItem);
 
             return items;
         }
 
-        public async Task<HomeIndexViewModel> GetHomeIndexViewModel()
+        public async Task<HomeIndexViewModel> GetHomeIndexViewModel(int? categoryId, int? brandId)
         {
             var vm = new HomeIndexViewModel
             {
                 Categories = await GetCategories(),
                 Brands = await GetBrands(),
-                Products = await _productRepository.ListAllAsync()
+                Products = await _productRepository.ListAllAsync(),
+                CategoryId = categoryId,
+                BrandId = brandId
             };
 
             return vm;
