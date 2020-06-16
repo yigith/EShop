@@ -16,18 +16,27 @@ namespace Infrastructure.Data
 
             if (!await shopContext.Categories.AnyAsync())
             {
-                shopContext.Categories.AddRange(GetCategories());
-                await shopContext.SaveChangesAsync();
+                foreach (var category in GetCategories())
+                {
+                    shopContext.Categories.Add(category);
+                    await shopContext.SaveChangesAsync();
+                }
             }
             if (!await shopContext.Brands.AnyAsync())
             {
-                shopContext.Brands.AddRange(GetBrands());
-                await shopContext.SaveChangesAsync();
+                foreach (var brand in GetBrands())
+                {
+                    shopContext.Brands.Add(brand);
+                    await shopContext.SaveChangesAsync();
+                }
             }
             if (!await shopContext.Products.AnyAsync())
             {
-                shopContext.Products.AddRange(GetProducts());
-                await shopContext.SaveChangesAsync();
+                foreach (var product in GetProducts())
+                {
+                    shopContext.Products.Add(product);
+                    await shopContext.SaveChangesAsync();
+                }
             }
         }
 
