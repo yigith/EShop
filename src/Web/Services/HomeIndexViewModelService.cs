@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Specifications;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -59,8 +60,7 @@ namespace Web.Services
             {
                 Categories = await GetCategories(),
                 Brands = await GetBrands(),
-                Products = await _productRepository.ListAsync(x => 
-                    (!categoryId.HasValue || x.CategoryId == categoryId) && (!brandId.HasValue || x.BrandId == brandId)),
+                Products = await _productRepository.ListAsync(new ProductsFilterSpecification(categoryId, brandId)),
                 CategoryId = categoryId,
                 BrandId = brandId
             };
