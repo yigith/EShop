@@ -22,19 +22,25 @@
     </div>
 </form>
 
-@*https://startbootstrap.com/templates/shop-homepage/*@
-<div class="row">
+@if (Model.Products.Count > 0)
+{
+    @*https://startbootstrap.com/templates/shop-homepage/*@
+    <div class="row">
 
-    @foreach (var product in Model.Products)
-    {
-        <partial name="_ProductPartial" model="product" />
-    }
+        @foreach (var product in Model.Products)
+        {
+            <partial name="_ProductPartial" model="product" />
+        }
 
-</div>
+    </div>
 
-<div>
-    Toplam Sayfa Adedi: @Model.PaginationInfo.TotalPages<br />
-    Şu Anki Sayfa: @Model.PaginationInfo.ActualPage<br />
-    Toplam Öğe Adedi: @Model.PaginationInfo.TotalItems<br />
-    Bu Sayfadaki Öğe Adedi: @Model.PaginationInfo.ItemsOnPage<br />
-</div>
+    <partial name="_PaginationPartial" model="Model.PaginationInfo" />
+}
+else
+{
+    <div class="text-center p-5">
+        No products were found matching your selection.
+    </div>
+}
+
+
